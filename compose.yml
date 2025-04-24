@@ -1,0 +1,18 @@
+version: "3.9"  # Required for Docker Compose
+
+services:       # Group of containers
+  backend:      # Name of the service (your FastAPI app)
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/db:/backend/db
+    environment:
+      - DATABASE_URL=sqlite:////backend/db/game.db
+  
+  frontend:     # Your Streamlit app
+    build: ./frontend
+    ports:
+      - "8501:8501"
+    depends_on:
+      - backend
